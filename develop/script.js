@@ -6,6 +6,7 @@ let description = document.querySelector("#description");
 let quiz = document.querySelector("#quizSection");
 let userInput = document.querySelector("#playerInfo");
 let scoreboard = document.querySelector("#scoreboard");
+let feedback = document.querySelector("#correctOrIncorrect");
 // list of all questions, choices, and answers
 let questions = [
   {
@@ -47,7 +48,7 @@ let userChoice = "";
 // variables for timer
 let timerEl = document.getElementById("timerEl");
 let timeLeft = 60;
-let timeInterval; //declarer in  global, but not assigned
+let timeInterval; //declared in global, but not assigned yet
 
 // functions
 function beginQuiz() {
@@ -74,15 +75,16 @@ function displayQuestion(index) {
 
 function checkAnswer() {
   // Check if answer is correct/incorrect, adds points to score, and shows next question if there's one
+  feedback.classList.remove("hidden");
   if (this.textContent != questions[currentQuestionIndex].answer) {
-    correctOrIncorrect.textContent = "--- Incorrect ---";
+    feedback.textContent = "--- Incorrect ---";
     timeLeft -= 5;
     timerEl.textContent = `${timeLeft} seconds remaining`;
     if (timeLeft <= 0) {
       endQuiz();
     }
   } else {
-    correctOrIncorrect.textContent = "--- Correct ---";
+    feedback.textContent = "--- Correct ---";
   }
   currentQuestionIndex++;
 
@@ -105,7 +107,6 @@ function endQuiz() {
   clearInterval(timeInterval);
   quiz.classList.add("hidden");
   userInput.classList.remove("hidden");
-  saveScore();
 }
 
 function saveScore() {
@@ -116,6 +117,7 @@ function saveScore() {
   };
   highScores.push(newScore);
   localStorage.setItem("scores", JSON.stringify(highScores));
+  userInput.classList.add("hidden");
   displayScoreboard();
 }
 
@@ -132,7 +134,6 @@ function displayScoreboard() {
     scoreboard.append(rowEl);
   });
 }
-
 
 // event listeners
 // start quiz button

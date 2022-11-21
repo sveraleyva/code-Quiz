@@ -5,31 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script> 
-    <link rel="stylesheet" href="./develop/style.css">
     <title>Code Quiz</title>
 </head>
 
-<body>
-    <header class="p-3 text-center border-b-4 border-slate-500 bg-cyan-800">
-        <h1>Code Quiz</h1>
-        <div>Timer: <span id="timerEl"></span></div>
+<body class="font-serif text-lg bg-emerald-50">
+    <header class="p-3 text-center border-b-4 border-slate-500 bg-emerald-900">
+        <h1 class="text-xl text-white">Code Quiz</h1>
+        <div class="text-white">Timer: <span id="timerEl"></span></div>
     </header>
 
-    <section class="p-2 bg-cyan-100" id="quizSection">
-        <p id="description">This is a coding quiz, good luck!</p>
-        <button class="p-2 text-center align-item: center; bg-cyan-500" id="startQuiz">Start Quiz</button>
+    <section class="flex flex-col p-2" id="quizSection">
+        <p class="text-center" id="description">This is a coding quiz, good luck!</p>
+        <button class="p-2 text-center align-item: center; bg-emerald-500" id="startQuiz">Start Quiz</button>
         <div class="container mx-auto hidden text-center flex flex-col" id="questionsDiv">
         </div>
-        <p class="text-center" id="correctOrIncorrect">Feedback!</p>
+        <p class="text-center hidden" id="correctOrIncorrect">Feedback!</p>
     </section>
    
-    <section class="p-2 bg-cyan-100 hidden" id="playerInfo">
+    <section class="p-2 hidden" id="playerInfo">
         <h2>Your score is <span id="finalScore"></span></h2>
         <input type="text" name="Initials" id="initials" placeholder="Jane Doe"/>
         <button class="btn btn-blue" id="submit">Submit</button>
     </section>
 
-    <table id="scoreboard" class="p-2 bg-cyan-100 hidden w-full md:w-9/12">
+    <table id="scoreboard" class="table-auto p-2 hidden">
         <tr>
             <th>Initials</th>
             <th>Score</th>
