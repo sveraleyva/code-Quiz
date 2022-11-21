@@ -119,6 +119,20 @@ function saveScore() {
   displayScoreboard();
 }
 
+function displayScoreboard() {
+  scoreboard.classList.remove("hidden");
+  let scores = JSON.parse(localStorage.getItem("scores")) || [];
+  scores.forEach((score, index) => {
+    let rowEl = document.createElement("tr");
+    let initialsEl = document.createElement("td");
+    let scoreEl = document.createElement("td");
+    initialsEl.textContent = scores[index].name;
+    scoreEl.textContent = scores[index].score;
+    rowEl.append(initialsEl, scoreEl);
+    scoreboard.append(rowEl);
+  });
+}
+
 
 // event listeners
 // start quiz button
