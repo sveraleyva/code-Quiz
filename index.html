@@ -12,18 +12,29 @@
 <body>
     <header class="p-3 text-center border-b-4 border-slate-500 bg-cyan-800">
         <h1>Code Quiz</h1>
-        <div>Timer</div>
+        <div>Timer: <span id="timerEl"></span></div>
     </header>
-    <div>
-        <button class="p-2 text-center bg-cyan-500" id="startQuiz">Start Quiz</button>
-    </div>
-    <div class="container mx-auto hidden text-center flex flex-col" id="questionsDiv">
-        <h2 class="text-center">Questions Array</h2>
-        <div>
-            <p class="text-center" id="correctOrIncorrect">Feedback!</p>
-            <p class="text-center" id="scoreCount">0</p>
+
+    <section class="p-2 bg-cyan-100" id="quizSection">
+        <p id="description">This is a coding quiz, good luck!</p>
+        <button class="p-2 text-center align-item: center; bg-cyan-500" id="startQuiz">Start Quiz</button>
+        <div class="container mx-auto hidden text-center flex flex-col" id="questionsDiv">
         </div>
-    </div>
+        <p class="text-center" id="correctOrIncorrect">Feedback!</p>
+    </section>
+   
+    <section class="p-2 bg-cyan-100 hidden" id="playerInfo">
+        <h2>Your score is <span id="finalScore"></span></h2>
+        <input type="text" name="Initials" id="initials" placeholder="Jane Doe"/>
+        <button class="btn btn-blue" id="submit">Submit</button>
+    </section>
+
+    <table id="scoreboard" class="p-2 bg-cyan-100 hidden w-full md:w-9/12">
+        <tr>
+            <th>Initials</th>
+            <th>Score</th>
+        </tr>
+    </table>
     
 </body>
 

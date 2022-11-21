@@ -1,6 +1,11 @@
 // global variables
 let startQuizBtn = document.querySelector("#startQuiz");
+let submitBtn = document.querySelector("#submit");
 let questionsBox = document.querySelector("#questionsDiv");
+let description = document.querySelector("#description");
+let quiz = document.querySelector("#quizSection");
+let userInput = document.querySelector("#playerInfo");
+let scoreboard = document.querySelector("#scoreboard");
 // list of all questions, choices, and answers
 let questions = [
   {
@@ -38,16 +43,24 @@ let questions = [
 ];
 let numberOfQuestions = questions.length - 1; // -1 to account for the index starting at 0
 let currentQuestionIndex = 0;
-let score = 0;
 let userChoice = "";
+// variables for timer
+let timerEl = document.getElementById("timerEl");
+let timeLeft = 60;
+let timeInterval; //declarer in  global, but not assigned
 
 // functions
 function beginQuiz() {
   questionsBox.classList.remove("hidden");
+  startQuizBtn.classList.add("hidden");
+  description.classList.add("hidden");
+  timerEl.textContent = `${timeLeft} seconds remaining`;
+  timeInterval = setInterval(countdown, 1000);
   displayQuestion(currentQuestionIndex);
 }
 
 function displayQuestion(index) {
+  questionsDiv.innerHTML = "";
   let questionTitle = document.createElement("h2");
   questionTitle.textContent = questions[index].title;
   questionsDiv.append(questionTitle);
@@ -60,39 +73,55 @@ function displayQuestion(index) {
 }
 
 function checkAnswer() {
-  // Check if answer is correct/incorrect, adds points to score, and shows next question
-  if (currentQuestionIndex > numberOfQuestions) {
-    console.log("game over");
-    // add function that ends the game - scoreboard
-  } else if (
-    this.textContent === questions[currentQuestionIndex].answer &&
-    currentQuestionIndex === numberOfQuestions
-  ) {
-    currentQuestionIndex++;
-    score++;
-    correctOrIncorrect.textContent = "Correct";
-    console.log("game over");
-    // add function that ends the game - scoreboard
-  } else if (
-    this.textContent === questions[currentQuestionIndex].answer &&
-    currentQuestionIndex < numberOfQuestions
-  ) {
-    currentQuestionIndex++;
-    score++;
-    correctOrIncorrect.textContent = "Correct";
-    displayQuestion(currentQuestionIndex);
+  // Check if answer is correct/incorrect, adds points to score, and shows next question if there's one
+  if (this.textContent != questions[currentQuestionIndex].answer) {
+    correctOrIncorrect.textContent = "--- Incorrect ---";
+    timeLeft -= 5;
+    timerEl.textContent = `${timeLeft} seconds remaining`;
+    if (timeLeft <= 0) {
+      endQuiz();
+    }
   } else {
-    correctOrIncorrect.textContent = "Incorrect";
+    correctOrIncorrect.textContent = "--- Correct ---";
+  }
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex >= numberOfQuestions) {
+    endQuiz();
+  } else {
+    displayQuestion(currentQuestionIndex);
   }
 }
 
-//clearPrevious function
+function countdown() {
+  timeLeft--;
+  timerEl.textContent = `${timeLeft} seconds remaining`;
+  if (timeLeft === 0) {
+    endQuiz();
+  }
+}
+
+function endQuiz() {
+  clearInterval(timeInterval);
+  quiz.classList.add("hidden");
+  userInput.classList.remove("hidden");
+  saveScore();
+}
+
+function saveScore() {
+  let highScores = JSON.parse(localStorage.getItem("scores")) || [];
+  let newScore = {
+    name: document.querySelector("input").value,
+    score: timeLeft,
+  };
+  highScores.push(newScore);
+  localStorage.setItem("scores", JSON.stringify(highScores));
+  displayScoreboard();
+}
 
 
 // event listeners
-// init - when the person comes to the page
 // start quiz button
 startQuizBtn.addEventListener("click", beginQuiz);
-
-// this function will call the next question in the array
-// input your name and score
+// input your name
+submitBtn.addEventListener("click", saveScore);
