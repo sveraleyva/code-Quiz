@@ -7,6 +7,7 @@ let quiz = document.querySelector("#quizSection");
 let userInput = document.querySelector("#playerInfo");
 let scoreboard = document.querySelector("#scoreboard");
 let feedback = document.querySelector("#correctOrIncorrect");
+let restartBtn = document.querySelector("#restartBtn");
 // list of all questions, choices, and answers
 let questions = [
   {
@@ -119,6 +120,7 @@ function saveScore() {
   localStorage.setItem("scores", JSON.stringify(highScores));
   userInput.classList.add("hidden");
   displayScoreboard();
+  restartBtn.classList.remove("hidden");
 }
 
 function displayScoreboard() {
@@ -140,3 +142,8 @@ function displayScoreboard() {
 startQuizBtn.addEventListener("click", beginQuiz);
 // input your name
 submitBtn.addEventListener("click", saveScore);
+
+restartBtn.addEventListener("click", function (event) {
+  event.preventDefault();
+  location.reload();
+});
